@@ -39,7 +39,14 @@ Save the script as `main.py` and run:
 python main.py
 ```
 
-## Notes on the optimizer (PuLP / CBC)
+## Limitations / behavior
+
+* Group sizes are constrained by **N** (upper bound). Some groups may have fewer members if the total number of people is not a multiple of `N`.
+* Feasibility is always guaranteed (assignment with capacity constraints), but optimality depends on the solver run.
+* Preferences are binary (no ranking/weights beyond 0/1).
+
+## Advanced clarifications
+### Notes on the optimizer (PuLP / CBC)
 
 This project uses PuLP with CBC as the solver:
 
@@ -54,7 +61,7 @@ This project uses PuLP with CBC as the solver:
 
 This is why the code checks `getattr(sys, "frozen", False)` and `sys._MEIPASS`.
 
-## Packaging (Windows) overview
+### Packaging (Windows) overview
 
 If you package with auto-py-to-exe / PyInstaller, you typically need to ensure that the CBC executable is included in the build output so that the frozen app can find it.
 
@@ -64,7 +71,7 @@ Common approach:
 
 The exact configuration depends on your environment and the layout of your PuLP installation.
 
-## Project structure
+### Project structure
 
 Single-file script (no separate modules). Main components:
 
@@ -72,9 +79,3 @@ Single-file script (no separate modules). Main components:
 * `PreferenceApp`: preference collection UI
 * `build_weight_matrix(...)`: converts preferences to an adjacency/weight matrix
 * `solve_partition(...)`: ILP model construction + solve + group extraction
-
-## Limitations / behavior
-
-* Group sizes are constrained by **N** (upper bound). Some groups may have fewer members if the total number of people is not a multiple of `N`.
-* Feasibility is always guaranteed (assignment with capacity constraints), but optimality depends on the solver run.
-* Preferences are binary (no ranking/weights beyond 0/1).
