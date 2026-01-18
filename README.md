@@ -19,6 +19,12 @@ Tkinter desktop app that collects each person’s preferences and then computes 
 * If person **A** prefers **B**, that counts as **1 point** if A and B are assigned to the same group.
 * Preferences are **directed** (A→B is not the same as B→A).
 
+## Limitations / behavior
+
+* Group sizes are constrained by **N** (upper bound). Some groups may have fewer members if the total number of people is not a multiple of `N`.
+* Feasibility is always guaranteed (assignment with capacity constraints), but optimality depends on the solver run.
+* Preferences are binary (no ranking/weights beyond 0/1).
+
 ## Requirements
 
 * Python 3.9+ recommended
@@ -38,12 +44,6 @@ Save the script as `main.py` and run:
 ```bash
 python main.py
 ```
-
-## Limitations / behavior
-
-* Group sizes are constrained by **N** (upper bound). Some groups may have fewer members if the total number of people is not a multiple of `N`.
-* Feasibility is always guaranteed (assignment with capacity constraints), but optimality depends on the solver run.
-* Preferences are binary (no ranking/weights beyond 0/1).
 
 ## Advanced clarifications
 ### Notes on the optimizer (PuLP / CBC)
