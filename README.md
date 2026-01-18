@@ -56,13 +56,13 @@ This is why the code checks `getattr(sys, "frozen", False)` and `sys._MEIPASS`.
 
 ## Packaging (Windows) overview
 
-If you package with auto-py-to-exe / PyInstaller, you typically must ensure the CBC executable is included in the build output so the frozen app can find it.
+If you package with auto-py-to-exe / PyInstaller, you typically need to ensure that the CBC executable is included in the build output so that the frozen app can find it.
 
 Common approach:
 
 * Add PuLP’s solver directory (or specifically the CBC executable) as “additional files” so it ends up in the expected `_MEIPASS` path.
 
-Exact configuration depends on your environment and PuLP install layout.
+The exact configuration depends on your environment and the layout of your PuLP installation.
 
 ## Project structure
 
@@ -75,6 +75,6 @@ Single-file script (no separate modules). Main components:
 
 ## Limitations / behavior
 
-* Group sizes are constrained by **N** (upper bound). Some groups may have fewer members if `len(names)` is not a multiple of `N`.
+* Group sizes are constrained by **N** (upper bound). Some groups may have fewer members if the total number of people is not a multiple of `N`.
 * Feasibility is always guaranteed (assignment with capacity constraints), but optimality depends on the solver run.
 * Preferences are binary (no ranking/weights beyond 0/1).
