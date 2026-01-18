@@ -46,12 +46,16 @@ def solve_partition(names, w, N):
 
     cbc_path = None
     if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
-        cbc_path = os.path.join(
-            sys._MEIPASS, "pulp", "solverdir", "cbc", "win", "i64", "cbc.exe"
-        )
-
+        base = os.path.join(sys._MEIPASS, "pulp", "solverdir", "cbc")
+        if sys.platform.startswith("win"):
+            cbc_path = os.path.join(base, "win", "i64", "cbc.exe")
+        elif sys.platform.startswith("darwin"):
+            cbc_path = os.path.join(base, "osx", "cbc")
+        elif sys.platform.startswith("linux"):
+            cbc_path = os.path.join(base, "linux", "cbc")
+        
     if cbc_path and os.path.exists(cbc_path):
-        solver = pulp.COIN_CMD(path=cbc_path, msg=False)   # <-- key change
+        solver = pulp.COIN_CMD(path=cbc_path, msg=False)
     else:
         solver = pulp.PULP_CBC_CMD(msg=False)
 
@@ -64,10 +68,6 @@ def solve_partition(names, w, N):
                 groups[g].append(names[i])
     return groups
 
-
-# =====================
-# UI DE PREFERENCIAS MEJORADA
-# =====================
 class PreferenceApp:
     def __init__(self, root, names, M):
         self.root = root
@@ -294,4 +294,5 @@ def main():
     groups_root.mainloop()
 
 if __name__ == "__main__":
+
     main()
