@@ -90,7 +90,7 @@ class PreferenceApp:
 
     def show_next_person(self):
         if self.index >= len(self.order):
-            self.root.destroy()
+            self.root.quit()
             return
 
         self.current_person = self.order[self.index]
@@ -271,7 +271,7 @@ def main():
     groups = solve_partition(setup.names, w, setup.N)
 
     # Mostrar grupos en una ventana
-    groups_root = tk.Tk()
+    groups_root = tk.Toplevel(root)
     groups_root.title("Grupos Óptimos")
     groups_root.update_idletasks()
     sw = groups_root.winfo_screenwidth()
@@ -288,10 +288,15 @@ def main():
         text.insert(tk.END, f"Grupo {g+1}: {', '.join(members)}\n")
     text.config(state="disabled")  # hacer solo lectura
 
-    btn = tk.Button(groups_root, text="Cerrar", command=groups_root.destroy)
+    def close_groups():
+        groups_root.destroy()
+        root.destroy()
+
+    groups_root.protocol("WM_DELETE_WINDOW", close_groups)
+    btn = tk.Button(groups_root, text="Cerrar", command=close_groups)
     btn.pack(pady=5)
 
-    groups_root.mainloop()
+    root.mainloop()
 
 if __name__ == "__main__":
 
